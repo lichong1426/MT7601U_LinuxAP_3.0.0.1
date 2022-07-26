@@ -35,6 +35,7 @@
 #include "os/rt_linux_cmm.h"
 #include <linux/string.h>
 #include <linux/version.h>
+#include <linux/timer.h>
 #include <linux/ctype.h>
 
 #undef AP_WSC_INCLUDED
@@ -252,7 +253,11 @@ typedef INT (*RTMP_OS_TASK_CALLBACK)(ULONG);
  **********************************************************************************/
 #define OS_HZ					RtmpOsTickUnitGet()
 
+#if LINUX_VERSION_CODE < KERNEL_VERSION(4,15,0)
 typedef void (*TIMER_FUNCTION)(ULONG);
+#else
+typedef void (*TIMER_FUNCTION)(struct timer_list *t);
+#endif
 
 #define OS_WAIT					RtmpOsWait
 
