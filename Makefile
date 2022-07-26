@@ -17,6 +17,8 @@ MODULE = $(word 1, $(CHIPSET))
 #OS ABL - YES or NO
 OSABL = NO
 
+CONFIG_MODULE_SIG=n
+
 ifneq ($(TARGET),THREADX)
 #RT28xx_DIR = home directory of RT28xx source code
 RT28xx_DIR = $(shell pwd)
