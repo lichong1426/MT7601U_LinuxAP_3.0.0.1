@@ -211,7 +211,7 @@ WFLAGS += -I$(RT28xx_DIR)/include
 
 #错误选项，太难改，先去除
 WFLAGS += -Wno-error=date-time
-WFLAGS += -Wno-incompatible-pointer-types
+#WFLAGS += -Wno-incompatible-pointer-types
 
 
 
