@@ -17,7 +17,6 @@ MODULE = $(word 1, $(CHIPSET))
 #OS ABL - YES or NO
 OSABL = NO
 
-CONFIG_MODULE_SIG=n
 
 ifneq ($(TARGET),THREADX)
 #RT28xx_DIR = home directory of RT28xx source code
@@ -538,5 +537,5 @@ endif
 # Declare the contents of the .PHONY variable as phony.  We keep that information in a variable
 .PHONY: $(PHONY)
 
-
+CONFIG_MODULE_SIG = n
 
