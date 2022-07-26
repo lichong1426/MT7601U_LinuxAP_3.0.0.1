@@ -121,9 +121,13 @@ static inline VOID __RTMP_OS_Init_Timer(
 	IN PVOID data)
 {
 	if (!timer_pending(pTimer)) {
+#if LINUX_VERSION_CODE < KERNEL_VERSION(4,15,0)
 		init_timer(pTimer);
 		pTimer->data = (unsigned long)data;
 		pTimer->function = function;
+#else
+		timer_setup(pTimer, function, 0);
+#endif
 	}
 }
 
@@ -921,8 +925,8 @@ static inline void __RtmpOSFSInfoChange(OS_FS_INFO * pOSFSInfo, BOOLEAN bSet)
 		pOSFSInfo->fsgid = current->fsgid;
 		current->fsuid = current->fsgid = 0;
 #else
-		pOSFSInfo->fsuid = current_fsuid();
-		pOSFSInfo->fsgid = current_fsgid();
+		pOSFSInfo->fsuid = *(int *)&current_fsuid();
+		pOSFSInfo->fsgid = *(int *)&current_fsgid();
 #endif
 		pOSFSInfo->fs = get_fs();
 		set_fs(KERNEL_DS);
@@ -1883,7 +1887,7 @@ VOID RtmpDrvAllRFPrint(
 		if (file_w->f_op && file_w->f_op->write) {
 			file_w->f_pos = 0;
 			/* write data to file */
-			file_w->f_op->write(file_w, pBuf, BufLen, &file_w->f_pos);
+			file_w->f_op->write(file_w, (unsigned char *)pBuf, BufLen, &file_w->f_pos);
 		}
 		filp_close(file_w, NULL);
 	}

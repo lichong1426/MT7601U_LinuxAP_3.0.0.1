@@ -34,6 +34,7 @@
 
 #include "os/rt_linux_cmm.h"
 #include <linux/string.h>
+#include <linux/version.h>
 #include <linux/ctype.h>
 
 #undef AP_WSC_INCLUDED
@@ -88,8 +89,8 @@ typedef VOID	pregs;
 /***********************************************************************************
  *	Compiler related definitions
  ***********************************************************************************/
-#undef __inline
-#define __inline		static inline
+// #undef __inline
+// #define __inline		static inline
 #define IN
 #define OUT
 #define INOUT

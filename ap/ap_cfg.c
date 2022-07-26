@@ -7260,7 +7260,7 @@ VOID RTMPAPIoctlRF(
 				sprintf(msg+strlen(msg), "%d %03d %02X\n", bank_Id, rfId, regRF);
 			}
 		}
-		RtmpDrvAllRFPrint(NULL, msg, strlen(msg));
+		RtmpDrvAllRFPrint(NULL, (UINT32 *)msg, strlen(msg));
 		/* Copy the information into the user buffer */
 
 #ifdef LINUX
