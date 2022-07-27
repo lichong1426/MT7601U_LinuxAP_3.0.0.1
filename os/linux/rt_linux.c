@@ -54,8 +54,8 @@
 #define RT_CONFIG_IF_OPMODE_ON_STA(__OpMode)
 #endif
 
-//ULONG RTDebugLevel = RT_DEBUG_TRACE;
-ULONG RTDebugLevel = RT_DEBUG_ERROR;
+ULONG RTDebugLevel = RT_DEBUG_TRACE;
+//ULONG RTDebugLevel = RT_DEBUG_ERROR;
 ULONG RTDebugFunc = 0;
 
 #ifdef OS_ABL_FUNC_SUPPORT
