@@ -66,7 +66,7 @@ typedef VOID	pregs;
 #ifdef CONFIG_AP_SUPPORT
 #ifdef RTMP_MAC_USB
 #ifdef INF_AMAZON_SE
-#define AP_PROFILE_PATH                 "/ramdisk/etc/Wireless/RT2870AP/RT2870AP.dat"
+#define AP_PROFILE_PATH                 "/etc/Wireless/RT2870AP/RT2870AP.dat"
 #define AP_RTMP_FIRMWARE_FILE_NAME "/ramdisk/etc/Wireless/RT2870AP/RT2870AP.bin"
 #else
 #define AP_PROFILE_PATH			"/etc/Wireless/RT2870AP/RT2870AP.dat"
