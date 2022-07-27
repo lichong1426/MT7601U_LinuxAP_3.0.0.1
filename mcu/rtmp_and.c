@@ -690,7 +690,7 @@ USBHST_STATUS USBKickOutCmdComplete(URBCompleteStatus Status, purbb_t pURB, preg
 	//struct completion *SentToMCUDone = (struct completion *)RTMP_OS_USB_CONTEXT_GET(pURB);
 
 	//complete(SentToMCUDone);
-
+	DBGPRINT(RT_DEBUG_TRACE, ("USBKickOutCmdComplete pURB=%p\n",pURB));
 	VOID	*SentToMCUDone = RTMP_OS_USB_CONTEXT_GET(pURB);
 
 	RtmpComplete(SentToMCUDone);
@@ -763,7 +763,7 @@ INT USBKickOutCmd(PRTMP_ADAPTER pAd, UCHAR *Buf, UINT32 Len)
 	{
 		RTUSB_UNLINK_URB(pURB);
 		Ret = NDIS_STATUS_FAILURE;
-		DBGPRINT(RT_DEBUG_ERROR, ("%s Timeout\n", __FUNCTION__));
+		DBGPRINT(RT_DEBUG_ERROR, ("%s Timeout (500ms)\n", __FUNCTION__));
 		hex_dump("CmdBuffer", (char *)DataBuffer, Len + 4);
 	}
 
