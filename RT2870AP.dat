@@ -1,11 +1,10 @@
 #The word of "Default" must not be removed
 Default
-Debug=5
 CountryRegion=5
 CountryRegionABand=7
 CountryCode=TW
 BssidNum=1
-SSID=RT2860AP
+SSID=TestAP_5E20
 WirelessMode=9
 TxRate=0
 Channel=6
