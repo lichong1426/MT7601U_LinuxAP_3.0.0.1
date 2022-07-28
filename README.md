@@ -1,4 +1,4 @@
-基于MT7601U_LinuxAP_3.0.0.1_20130802源码修改，适配内核5.4.0
+基于MT7601U_LinuxAP_3.0.0.1_20130802源码修改，适配内核5.4.85
 
 编译并安装加载
 ```
@@ -11,5 +11,5 @@ sudo modprobe mt7601Uap
 ```
 sudo rmmod mt7601Uap
 sudo make uninstall
-sudo clean
+sudo make clean
 ```
