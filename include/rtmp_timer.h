@@ -33,9 +33,15 @@
 #define  __RTMP_TIMER_H__
 
 #include "rtmp_os.h"
+#include <linux/version.h>
 
+#if LINUX_VERSION_CODE < KERNEL_VERSION(4,15,0)
 #define DECLARE_TIMER_FUNCTION(_func)			\
 	void rtmp_timer_##_func(unsigned long data)
+#else
+#define DECLARE_TIMER_FUNCTION(_func)			\
+	void rtmp_timer_##_func(struct timer_list *t)
+#endif /* LINUX_VERSION_CODE */
 
 #define GET_TIMER_FUNCTION(_func)				\
 	(PVOID)rtmp_timer_##_func
@@ -84,6 +90,7 @@ typedef struct _RTMP_TIMER_TASK_QUEUE_ {
 	RTMP_TIMER_TASK_ENTRY *pQTail;
 } RTMP_TIMER_TASK_QUEUE;
 
+#if LINUX_VERSION_CODE < KERNEL_VERSION(4,15,0)
 #define BUILD_TIMER_FUNCTION(_func)										\
 void rtmp_timer_##_func(unsigned long data)										\
 {																			\
@@ -97,7 +104,23 @@ void rtmp_timer_##_func(unsigned long data)										\
 	if ((_pQNode == NULL) && (_pAd->TimerQ.status & RTMP_TASK_CAN_DO_INSERT))	\
 		RTMP_OS_Add_Timer(&_pTimer->TimerObj, OS_HZ);               					\
 }
+#else
+#define BUILD_TIMER_FUNCTION(_func)										\
+void rtmp_timer_##_func(struct timer_list *t)										\
+{																			\
+	PRALINK_TIMER_STRUCT	_pTimer = from_timer(_pTimer, t, TimerObj);				\
+	RTMP_TIMER_TASK_ENTRY	*_pQNode;										\
+	RTMP_ADAPTER			*_pAd;											\
+																			\
+	_pTimer->handle = _func;													\
+	_pAd = (RTMP_ADAPTER *)_pTimer->pAd;										\
+	_pQNode = RtmpTimerQInsert(_pAd, _pTimer); 								\
+	if ((_pQNode == NULL) && (_pAd->TimerQ.status & RTMP_TASK_CAN_DO_INSERT))	\
+		RTMP_OS_Add_Timer(&_pTimer->TimerObj, OS_HZ);               					\
+}
+#endif /* LINUX_VERSION_CODE */
 #else /* !RTMP_TIMER_TASK_SUPPORT */
+#if LINUX_VERSION_CODE < KERNEL_VERSION(4,15,0)
 #define BUILD_TIMER_FUNCTION(_func)										\
 void rtmp_timer_##_func(unsigned long data)										\
 {																			\
@@ -107,6 +130,17 @@ void rtmp_timer_##_func(unsigned long data)										\
 	if (pTimer->Repeat)														\
 		RTMP_OS_Add_Timer(&pTimer->TimerObj, pTimer->TimerValue);			\
 }
+#else
+#define BUILD_TIMER_FUNCTION(_func)										\
+void rtmp_timer_##_func(struct timer_list *t)										\
+{																			\
+	PRALINK_TIMER_STRUCT	pTimer = from_timer(_pTimer, t, TimerObj);				\
+																			\
+	_func(NULL, (PVOID) pTimer->cookie, NULL, pTimer); 							\
+	if (pTimer->Repeat)														\
+		RTMP_OS_Add_Timer(&pTimer->TimerObj, pTimer->TimerValue);			\
+}
+#endif /* LINUX_VERSION_CODE */
 #endif /* RTMP_TIMER_TASK_SUPPORT */
 
 DECLARE_TIMER_FUNCTION(MlmePeriodicExec);
