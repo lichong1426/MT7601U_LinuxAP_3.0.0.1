@@ -874,6 +874,7 @@ INT AsicSendCmdToAndes(PRTMP_ADAPTER pAd, struct CMD_UNIT *CmdUnit)
 
 	/* Wait for Command Rsp */
 	if (CmdUnit->u.ANDES.NeedWait) {
+		DBGPRINT(RT_DEBUG_INFO, ("Command SendCmdToAndes, seq:%d, AckDone:%p\n", TxInfoCmd->cmd_seq, CmdRspEvent->AckDone));
 		ULONG Timeout = CmdUnit->u.ANDES.Timeout;
 		Expire = Timeout ? RtmpMsecsToJiffies(Timeout) : RtmpMsecsToJiffies(300);
 		if (!RtmpWaitForCompletionTimeout(CmdRspEvent->AckDone, Expire))

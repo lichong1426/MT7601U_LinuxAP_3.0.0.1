@@ -2986,7 +2986,7 @@ BOOLEAN CmdRspEventCallbackHandle(PRTMP_ADAPTER pAd, PUCHAR pRspBuffer)
 		{
 			if (CmdRspEvent->CmdSeq == pFceInfo->cmd_seq)
 			{
-				
+				DBGPRINT(RT_DEBUG_INFO, ("Command response(ack) seq:%d\n", CmdRspEvent->CmdSeq));
 				if ((*CmdRspEvent->RspPayloadLen == pFceInfo->pkt_len) && (*CmdRspEvent->RspPayloadLen != 0))
 				{
 						NdisMoveMemory(*CmdRspEvent->RspPayload, pRspBuffer + sizeof(*pFceInfo),
@@ -3002,6 +3002,7 @@ BOOLEAN CmdRspEventCallbackHandle(PRTMP_ADAPTER pAd, PUCHAR pRspBuffer)
 					*CmdRspEvent->RspPayloadLen = pFceInfo->pkt_len;
 				}
 
+				DBGPRINT(RT_DEBUG_INFO, ("Command response(ack) NeedWait:%d, AckDone:%p\n",CmdRspEvent->NeedWait, CmdRspEvent->AckDone));
 				if (CmdRspEvent->NeedWait)
 				{
 					RtmpComplete(CmdRspEvent->AckDone);
